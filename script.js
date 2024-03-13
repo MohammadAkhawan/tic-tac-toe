@@ -107,17 +107,17 @@ function gameStart() {
 
     let playersAreReady = false;
 
-    const savePlayerName = (nameInputBox, sign, saveBtn) => {
+    const savePlayerName = (nameInputBox, sign, saveBtn, playerName) => {
         nameInputBox.disabled = true;
         nameInputBox.style.backgroundColor = "#fdba74";
         nameInputBox.style.color = "black";
         sign.style.opacity = "100%";
         saveBtn.style.visibility = "hidden";
-        return nameInputBox.value;
+        playerName = nameInputBox.value;
     };
 
     p1SaveNameBtn.addEventListener("click", () => {
-        p1Name = savePlayerName(p1NameInputBox, p1Sign, p1SaveNameBtn);
+        savePlayerName(p1NameInputBox, p1Sign, p1SaveNameBtn, p1Name);
         playersAreReady = !p1Name === "" && !p2Name === "";
     });
 
