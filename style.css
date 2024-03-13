@@ -94,7 +94,7 @@ body {
     grid-gap: 2px;
     width: 17vw;
     margin: 0 auto;
-    visibility: visible;
+    visibility: hidden;
 }
 
 .spot {
@@ -106,6 +106,7 @@ body {
     display: flex;
     gap: 50px;
     margin: 0 auto;
+    visibility: hidden;
 }
 
 .game-report h3 {
@@ -123,7 +124,6 @@ body {
     height: 3vh;
     border-radius: 4px;
     margin: 0 auto;
-    visibility: visible;
 }
 
 .wins {
