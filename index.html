@@ -7,6 +7,56 @@
         <title>Tic Tac Toe</title>
     </head>
     <body>
+        <div class="container">
+            <div class="players">
+                <h1>Enter your name guys</h1>
+                <div class="players-name">
+                    <div class="player-one">
+                        <h3>Player One</h3>
+                        <h2>X</h2>
+                        <input id="player-one-name" type="text" />
+                        <button id="player-one-save-name">Save</button>
+                    </div>
+                    <div class="player-two">
+                        <h3>Player Two</h3>
+                        <h2>O</h2>
+                        <input id="player-two-name" type="text" />
+                        <button id="player-two-save-name">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="board">
+                <div class="spot" id="box1"></div>
+                <div class="spot" id="box2"></div>
+                <div class="spot" id="box3"></div>
+                <div class="spot" id="box4"></div>
+                <div class="spot" id="box5"></div>
+                <div class="spot" id="box6"></div>
+                <div class="spot" id="box7"></div>
+                <div class="spot" id="box8"></div>
+                <div class="spot" id="box9"></div>
+            </div>
+            <div class="game-report">
+                <div class="round">
+                    <h3>round</h3>
+                    <div class="report-box" id="round-counter">1</div>
+                </div>
+                <div class="wins">
+                    <div class="player-one-wins">
+                        <h3>P1 Wins</h3>
+                        <div class="report-box" id="p1-wins-counter">1</div>
+                    </div>
+                    <div class="player-two-wins">
+                        <h3>P2 Wins</h3>
+                        <div class="report-box" id="p2-wins-counter">1</div>
+                    </div>
+                </div>
+                <div class="draws">
+                    <h3>Draws</h3>
+                    <div class="report-box" id="draw-counter">1</div>
+                </div>
+            </div>
+        </div>
         <script src="./script.js"></script>
     </body>
 </html>
