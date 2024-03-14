@@ -1,149 +1,78 @@
-// Game Logic
+const cells = document.querySelectorAll(".cell");
+const statusText = document.querySelector("#statusText");
+const restartBtn = document.querySelector("#restartBtn");
+const winConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+];
+let options = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = "X";
+let running = false;
 
-function gameBoard() {
-    const rows = 3;
-    const columns = 3;
-    board = [];
+initializeGame();
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push(cell());
+function initializeGame() {
+    cells.forEach((cell) => cell.addEventListener("click", cellClicked));
+    restartBtn.addEventListener("click", restartGame);
+    statusText.textContent = `${currentPlayer}'s turn`;
+    running = true;
+}
+function cellClicked() {
+    const cellIndex = this.getAttribute("cellIndex");
+
+    if (options[cellIndex] != "" || !running) {
+        return;
+    }
+
+    updateCell(this, cellIndex);
+    checkWinner();
+}
+function updateCell(cell, index) {
+    options[index] = currentPlayer;
+    cell.textContent = currentPlayer;
+}
+function changePlayer() {
+    currentPlayer = currentPlayer == "X" ? "O" : "X";
+    statusText.textContent = `${currentPlayer}'s turn`;
+}
+function checkWinner() {
+    let roundWon = false;
+
+    for (let i = 0; i < winConditions.length; i++) {
+        const condition = winConditions[i];
+        const cellA = options[condition[0]];
+        const cellB = options[condition[1]];
+        const cellC = options[condition[2]];
+
+        if (cellA == "" || cellB == "" || cellC == "") {
+            continue;
+        }
+        if (cellA == cellB && cellB == cellC) {
+            roundWon = true;
+            break;
         }
     }
 
-    const getBoard = () => board;
-
-    const markToken = (row, column, playerToken) => {
-        const selectedCell = board[row][column];
-        if (selectedCell.getValue() !== 0) return;
-        selectedCell.addMark(playerToken);
-    };
-
-    return { getBoard, markToken };
+    if (roundWon) {
+        statusText.textContent = `${currentPlayer} wins!`;
+        running = false;
+    } else if (!options.includes("")) {
+        statusText.textContent = `Draw!`;
+        running = false;
+    } else {
+        changePlayer();
+    }
 }
-
-function cell() {
-    let value = 0;
-
-    const addMark = (playerToken) => (value = playerToken);
-    const getValue = () => value;
-
-    return { addMark, getValue };
+function restartGame() {
+    currentPlayer = "X";
+    options = ["", "", "", "", "", "", "", "", ""];
+    statusText.textContent = `${currentPlayer}'s turn`;
+    cells.forEach((cell) => (cell.textContent = ""));
+    running = true;
 }
-
-function gameController(playerOne = "player1", playerTwo = "player2") {
-    const players = [
-        { name: playerOne, token: 1 },
-        { name: playerTwo, token: 2 },
-    ];
-
-    let roundCounter = 0;
-
-    const board = gameBoard();
-
-    let activePlayer = players[0];
-
-    const switchActivePlayer = () =>
-        (activePlayer = activePlayer === players[0] ? players[1] : players[0]);
-
-    const getActivePlayer = () => activePlayer;
-
-    const playRound = (row, column) => {
-        board.markToken(row, column, getActivePlayer().token);
-        roundCounter++;
-
-        const weHaveWinner = checkForWinner(board.getBoard(), row, column);
-        const itIsTie = !weHaveWinner && roundCounter === 9;
-
-        if (!weHaveWinner && !itIsTie) switchActivePlayer();
-    };
-
-    return { getActivePlayer, playRound };
-}
-
-function checkForWinner(gameBoard, row, column) {
-    const playedCell = gameBoard[row][column];
-
-    const isRowWin = gameBoard[row].every(
-        (cell) => cell.getValue() === playedCell.getValue()
-    );
-
-    const isColumnWin = gameBoard.every(
-        (row) => row[column].getValue() === playedCell.getValue()
-    );
-
-    const leftDiagonalWin =
-        row === column &&
-        gameBoard.every(
-            (row, index) => row[index].getValue === playedCell.getValue()
-        );
-
-    const rightDiagonalWin = (row =
-        column === gameBoard.length - 1 &&
-        gameBoard.every(
-            (row, index) =>
-                row[gameBoard.length - 1 - index].getValue() ===
-                playedCell.getValue()
-        ));
-
-    return isRowWin || isColumnWin || leftDiagonalWin || rightDiagonalWin;
-}
-
-// DOM
-
-function gameStart() {
-    const p1NameInputBox = document.querySelector("#player-one-name");
-    const p2NameInputBox = document.querySelector("#player-two-name");
-
-    const p1SaveNameBtn = document.querySelector("#player-one-save-name");
-    const p2SaveNameBtn = document.querySelector("#player-two-save-name");
-
-    const p1Sign = document.querySelector("#xSign");
-    const p2Sign = document.querySelector("#oSign");
-
-    let p1Name = "";
-    let p2Name = "";
-
-    let playersAreReady = false;
-
-    const savePlayerName = (nameInputBox, sign, saveBtn, playerName) => {
-        nameInputBox.disabled = true;
-        nameInputBox.style.backgroundColor = "#fdba74";
-        nameInputBox.style.color = "black";
-        sign.style.opacity = "100%";
-        saveBtn.style.visibility = "hidden";
-        playerName = nameInputBox.value;
-    };
-
-    p1SaveNameBtn.addEventListener("click", () => {
-        savePlayerName(p1NameInputBox, p1Sign, p1SaveNameBtn, p1Name);
-        playersAreReady = !p1Name === "" && !p2Name === "";
-    });
-
-    p2SaveNameBtn.addEventListener("click", () => {
-        p2Name = savePlayerName(p2NameInputBox, p2Sign, p2SaveNameBtn);
-        playersAreReady = !p1Name === "" && !p2Name === "";
-    });
-
-    return { p1Name, p2Name, playersAreReady };
-}
-
-function game() {
-    const start = gameStart();
-    console.log(start);
-    // const controller = gameController(start.p1Name, start.p2Name);
-
-    // const boardElement = document.querySelector(".board");
-    // const reportElement = document.querySelector(".game-report");
-
-    // // if (start.playersAreReady) {
-    // //     console.log(start.playersAreReady);
-    // //     boardElement.style.visibility = "visible";
-    // //     reportElement.style.visibility = "visible";
-    // // }
-
-    // const cellElement = document.querySelector(".spot");
-}
-
-game();

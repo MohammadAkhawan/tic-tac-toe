@@ -1,132 +1,19 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: #1e1b4b;
-    height: 100vh;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 10vh;
-    width: 50vw;
-    height: 100vh;
-    margin: 0 auto;
-}
-
-.players {
-    display: flex;
-    flex-direction: column;
-    gap: 3vh;
-    align-items: center;
-}
-
-.players h1 {
-    font-size: 44px;
-    color: #fb923c;
-    margin-top: 4vh;
-}
-
-.players-name {
-    display: flex;
-    gap: 4vw;
-}
-
-.player-one,
-.player-two {
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-    align-items: center;
-}
-
-.players-name h3 {
-    color: #fdba74;
-}
-
-.players-name h2 {
-    font-size: 38px;
-    color: #fdba74;
-    opacity: 50%;
-}
-
-.players-name input {
-    border: none;
-    height: 4vh;
-    width: 10vw;
-    padding: 5%;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    background-color: #fefce8;
-    text-align: center;
-}
-
-.players-name input::-webkit-outer-spin-button,
-.players-name input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.players-name input:focus {
-    outline: none;
-}
-
-.players-name button {
-    border: none;
-    margin-top: 1vh;
-    width: 5vw;
-    height: 3vh;
-    font-size: 0.9rem;
-    background-color: #fb923c;
-    border-radius: 0.45rem;
-    color: #1e1b4b;
+.cell {
+    width: 75px;
+    height: 75px;
+    border: 2px solid;
+    box-shadow: 0 0 0 2px;
+    line-height: 75px;
+    font-size: 50px;
     cursor: pointer;
 }
-
-.board {
-    background-color: #fdba74;
-    opacity: 50%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2px;
-    width: 17vw;
-    margin: 0 auto;
-    visibility: hidden;
-}
-
-.spot {
-    height: 100px;
-    background-color: #1e1b4b;
-}
-
-.game-report {
-    display: flex;
-    gap: 50px;
-    margin: 0 auto;
-    visibility: hidden;
-}
-
-.game-report h3 {
-    font-size: 24px;
-    color: #fdba74;
-    margin-bottom: 1vh;
-}
-
-.report-box {
-    background-color: #fefce8;
+#gameContainer {
+    font-family: "Permanent Marker", cursive;
     text-align: center;
-    font-size: 1.5rem;
-    padding: 0.1rem;
-    width: 3vw;
-    height: 3vh;
-    border-radius: 4px;
-    margin: 0 auto;
 }
-
-.wins {
-    display: flex;
-    gap: 30px;
+#cellContainer {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: 225px;
+    margin: auto;
 }
